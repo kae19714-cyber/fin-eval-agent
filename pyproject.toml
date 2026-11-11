@@ -1,0 +1,13 @@
+[project]
+name = "fin-eval-agent"
+version = "0.1.0"
+description = "AI-агент финансовой оценки бизнес-инициатив: от бизнес-кейса до фактического эффекта пилота"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26", "pandas>=2.1", "scipy>=1.11", "duckdb>=1.0", "pydantic>=2.6", "pyyaml>=6.0", "anthropic>=2.8"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+spark = ["pyspark>=3.5"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
