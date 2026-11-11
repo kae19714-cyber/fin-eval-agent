@@ -119,8 +119,12 @@ def build_report(ctx: EvalContext, recommendation: str, summary: str, risks_and_
     md = _render(ctx, recommendation, summary, risks_and_conditions, rule)
     path = ctx.out_dir / "report.md"
     path.write_text(md)
-    ctx.results["report"] = {"path": str(path), "recommendation": recommendation, "decision_rule": rule}
-    return {"status": "ok", "path": str(path), "recommendation": recommendation,
+    from fineval.tools.report_html import render_html
+    html_path = ctx.out_dir / "report.html"
+    html_path.write_text(render_html(ctx, recommendation, summary, risks_and_conditions, rule))
+    ctx.results["report"] = {"path": str(path), "html": str(html_path), "recommendation": recommendation,
+                             "decision_rule": rule}
+    return {"status": "ok", "path": str(path), "html": str(html_path), "recommendation": recommendation,
             "matches_decision_rule": recommendation == rule["recommendation"], "decision_rule": rule}
 
 

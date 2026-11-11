@@ -187,6 +187,7 @@ def sensitivity_analysis(ctx: EvalContext, scenario: str, n_sims: int = 5000, se
                                    "clients_mult": cl_m[i], "effect_decay_per_year": decay[i]})["fcf"])
         for i in range(n_sims)
     ])
+    ctx.charts[f"mc_{scenario}"] = (npvs / 1e6).round(2).tolist()
     res = {
         "scenario": scenario,
         "base_npv_mln": round(base_npv / 1e6, 1),

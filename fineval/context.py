@@ -22,6 +22,9 @@ class EvalContext:
     initiative: dict = field(default_factory=dict)
     mart: pd.DataFrame | None = None
     results: dict[str, Any] = field(default_factory=dict)
+    # Данные только для графиков (выборки Monte Carlo и т.п.). В results не кладём:
+    # results — это «источник правды» для проверки чисел в тексте агента.
+    charts: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
     def from_initiative(cls, initiative_path: str | Path, out_dir: str | Path | None = None):

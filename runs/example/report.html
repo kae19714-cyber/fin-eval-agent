@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Оценка инициативы: Повышенный кэшбэк в категориях партнёров для держателей дебетовых карт</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* Отчёт для инвесткомитета: светлая «бумажная» страница, крупные лёгкие заголовки,
+   зелёный только для факта и плюса, серый для плана и контроля, ягодный для минуса. */
+:root {
+  color-scheme: light;
+  --bg: #F9F9F9;
+  --card: #FFFFFF;
+  --ink: rgba(23,23,23,.96);
+  --ink-2: rgba(23,23,23,.62);
+  --ink-3: rgba(23,23,23,.40);
+  --line: #E6E6E6;
+  --grid: #EFEFEF;
+  --accent: #108E26;
+  --accent-wash: rgba(16,142,38,.10);
+  --pos: #1A9E32;
+  --neg: #C2408A;
+  --neutral: #A3A3A3;
+  --warn: #E85702;
+  --blob-1: rgba(26,158,50,.20);
+  --blob-2: rgba(4,198,201,.16);
+  --blob-3: rgba(214,232,40,.18);
+  --shadow: 0 4px 14px -4px rgba(8,8,8,.08), 0 1px 4px -1px rgba(0,0,0,.04);
+  --font-display: "Onest", "SB Sans Display", "Golos Text", system-ui, sans-serif;
+  --font-body: "Golos Text", "SB Sans Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r-card: 20px;
+  --r-s: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #080808; --card: #141414; --ink: rgba(245,245,245,.96); --ink-2: rgba(245,245,245,.62);
+    --ink-3: rgba(245,245,245,.40); --line: #2A2A2A; --grid: #222222; --accent: #24B23E;
+    --accent-wash: rgba(36,178,62,.14); --pos: #24B23E; --neg: #E0608F; --neutral: #6E6E6E; --warn: #FF7024;
+    --blob-1: rgba(26,158,50,.22); --blob-2: rgba(4,198,201,.14); --blob-3: rgba(214,232,40,.08);
+    --shadow: 0 0 0 1px #222;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #080808; --card: #141414; --ink: rgba(245,245,245,.96); --ink-2: rgba(245,245,245,.62);
+  --ink-3: rgba(245,245,245,.40); --line: #2A2A2A; --grid: #222222; --accent: #24B23E;
+  --accent-wash: rgba(36,178,62,.14); --pos: #24B23E; --neg: #E0608F; --neutral: #6E6E6E; --warn: #FF7024;
+  --blob-1: rgba(26,158,50,.22); --blob-2: rgba(4,198,201,.14); --blob-3: rgba(214,232,40,.08);
+  --shadow: 0 0 0 1px #222;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 16px/1.5 var(--font-body); letter-spacing: -0.01em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; text-wrap: balance; margin: 0; letter-spacing: -0.015em; }
+h1 { font-size: clamp(32px, 5vw, 48px); line-height: 1.12; font-weight: 300; }
+h2 { font-size: clamp(24px, 3.2vw, 32px); line-height: 1.2; }
+h3 { font-size: 18px; line-height: 1.35; font-weight: 500; font-family: var(--font-body); letter-spacing: -0.01em; }
+p { margin: 0; }
+.muted { color: var(--ink-2); }
+.small { font-size: 14px; line-height: 20px; }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* шапка */
+.hero { position: relative; overflow: hidden; padding: 56px 0 40px; }
+.blobs { position: absolute; inset: -120px -80px auto auto; width: 720px; height: 520px; pointer-events: none; filter: blur(60px); }
+.blobs i { position: absolute; border-radius: 50%; display: block; }
+.blobs i:nth-child(1) { width: 320px; height: 320px; left: 120px; top: 80px; background: var(--blob-1); }
+.blobs i:nth-child(2) { width: 360px; height: 300px; left: 340px; top: 20px; background: var(--blob-2); }
+.blobs i:nth-child(3) { width: 300px; height: 260px; left: 300px; top: 260px; background: var(--blob-3); }
+.hero .wrap { position: relative; display: grid; gap: 20px; }
+.eyebrow { font-size: 14px; color: var(--ink-2); display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.eyebrow span + span::before { content: "·"; margin-right: 12px; color: var(--ink-3); }
+.lede { max-width: 66ch; font-size: 18px; line-height: 26px; color: var(--ink-2); }
+
+.verdict {
+  display: grid; grid-template-columns: auto 1fr; gap: 16px 20px; align-items: start;
+  background: var(--card); border-radius: var(--r-card); padding: 24px; box-shadow: var(--shadow);
+  border-left: 4px solid var(--warn);
+}
+.verdict.go { border-left-color: var(--pos); }
+.verdict.stop { border-left-color: var(--neg); }
+.pill {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px;
+  background: var(--accent-wash); color: var(--ink); font-weight: 500; font-size: 15px; white-space: nowrap;
+}
+.pill svg { flex: none; }
+.verdict .summary { display: grid; gap: 12px; max-width: 72ch; font-size: 17px; line-height: 26px; }
+.verdict .rule { font-size: 14px; color: var(--ink-2); }
+@media (max-width: 640px) { .verdict { grid-template-columns: 1fr; } }
+
+/* плитки */
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 420px) { .tiles { grid-template-columns: 1fr; } }
+.tile { background: var(--card); border-radius: var(--r-card); padding: 20px; box-shadow: var(--shadow); display: grid; gap: 6px; align-content: start; }
+.tile .label { font-size: 14px; color: var(--ink-2); }
+.tile .value { font: 500 34px/1.1 var(--font-body); letter-spacing: -0.02em; }
+.tile .value small { font-size: 18px; font-weight: 400; color: var(--ink-2); margin-left: 4px; }
+.tile .delta { font-size: 14px; color: var(--ink-2); }
+.tile .delta b { font-weight: 500; color: var(--ink); }
+
+/* секции */
+section { padding: 40px 0 8px; }
+.section-head { display: grid; gap: 8px; margin-bottom: 20px; max-width: 72ch; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+.card { background: var(--card); border-radius: var(--r-card); padding: 20px 20px 16px; box-shadow: var(--shadow); display: grid; gap: 12px; min-width: 0; }
+.card header { display: grid; gap: 4px; }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.key-rect { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.key-line { width: 16px; height: 2px; border-radius: 1px; display: inline-block; }
+.key-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.chart { width: 100%; position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { fill: var(--ink-2); font: 12px var(--font-body); font-variant-numeric: tabular-nums; }
+.chart .strong { fill: var(--ink); font-weight: 500; }
+.chart .grid line { stroke: var(--grid); stroke-width: 1; }
+.chart .axis { stroke: var(--line); stroke-width: 1; }
+.chart .ref { stroke: var(--ink-3); stroke-width: 1; }
+.hit { fill: transparent; cursor: default; }
+.hit:focus { outline: none; }
+.mark { transition: opacity .12s; }
+.chart:hover .mark.dim { opacity: .45; }
+
+details { font-size: 14px; }
+details summary { cursor: pointer; color: var(--ink-2); width: fit-content; border-radius: 6px; }
+details summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tbl-wrap { overflow-x: auto; margin-top: 8px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { font-weight: 500; color: var(--ink-2); }
+
+.compare td.plan { color: var(--ink-2); }
+.compare td.fact { font-weight: 500; }
+
+.tooltip {
+  position: fixed; z-index: 10; pointer-events: none; background: var(--card); color: var(--ink);
+  border-radius: var(--r-s); padding: 10px 12px; box-shadow: 0 8px 24px -6px rgba(0,0,0,.18), 0 0 0 1px var(--line);
+  font-size: 13px; line-height: 18px; min-width: 140px; opacity: 0; transition: opacity .1s; font-variant-numeric: tabular-nums;
+}
+.tooltip.on { opacity: 1; }
+.tooltip .t-title { color: var(--ink-2); margin-bottom: 4px; }
+.tooltip .t-row { display: grid; grid-template-columns: 14px 1fr; gap: 6px; align-items: center; }
+.tooltip .t-row b { font-weight: 600; }
+.tooltip .t-row .key-line { width: 12px; }
+
+.prose { display: grid; gap: 10px; max-width: 72ch; }
+.prose ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 24px; font-size: 14px; }
+.facts div { display: grid; gap: 2px; padding-top: 10px; border-top: 1px solid var(--line); }
+.facts dt { color: var(--ink-2); }
+.facts dd { margin: 0; font-weight: 500; }
+footer { padding: 48px 0 56px; color: var(--ink-3); font-size: 13px; }
+footer a { color: var(--ink-2); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<script type="application/json" id="report-data">{"meta": {"name": "Повышенный кэшбэк в категориях партнёров для держателей дебетовых карт", "owner": "Розничный бизнес, дирекция карточных продуктов", "description": "Клиент подключает опцию и получает +1 п.п. кэшбэка в категориях партнёров. Половину дополнительного кэшбэка компенсируют партнёры. Ожидаемый эффект — рост оборота по карте и остатков на счёте (клиент делает банк основным).", "date": "11.11.2026", "recommendation": "доработать и повторить пилот", "rule": {"recommendation": "доработать и повторить пилот", "reason": "эффект значим, но вероятность NPV>0 ниже 50%; точка безубыточности внутри доверительного интервала — экономику можно спасти доработкой условий"}, "summary": "Пилот подтвердил эффект, но он почти вдвое ниже бизнес-кейса: 12,54 ₽ чистого дохода на клиента в месяц против 22,56 ₽. Подключились 36,1% клиентов вместо 45,0%, а эффект на подключившего — 34,73 ₽ вместо 50,14 ₽. Рост оборота и остатков почти целиком уходит на кэшбэк: +56,63 ₽ interchange и +49,87 ₽ дохода на остатки против 93,96 ₽ чистых расходов на кэшбэк.\n\nПри масштабировании NPV составит 61,9 млн ₽ вместо 860,9 млн ₽ по плану. Точка безубыточности 11,76 ₽ лежит внутри доверительного интервала эффекта, поэтому вероятность NPV > 0 — 41%. Эффект сосредоточен в состоятельном сегменте: 32,83 ₽ против 7,07 ₽ в массовом.", "risks": "- Экономика на грани: точка безубыточности 11,76 ₽, нижняя граница эффекта 3,60 ₽. В худших 5% сценариев NPV в среднем −742,7 млн ₽.\n- Главный рычаг — расходы на кэшбэк: стоит пересогласовать долю компенсации с партнёрами и пересчитать NPV как what-if.\n- Предложение стоит сфокусировать на сегменте с сильным эффектом и повторить пилот с таргетингом и заранее заданным критерием успеха.\n- Эффект новизны может затухать быстрее заложенного: в повторном пилоте нужен горизонт наблюдения длиннее.\n- Выводы детерминированного режима сформированы по шаблону; в режиме агента их пишет модель."}, "kpi": {"itt_plan": 22.56, "itt_fact": 12.537, "itt_ci": [3.5986, 21.4755], "npv_plan": 860.9, "npv_fact": 61.9, "p_plan": 0.869, "p_fact": 0.411, "breakeven": 11.76, "take_up_plan": 0.45, "take_up_fact": 0.361, "att_plan": 50.14, "att_fact": 34.73, "irr_plan": 0.7211, "irr_fact": 0.2444, "payback_plan": 2.13, "payback_fact": 4.37, "pi_plan": 2.91, "pi_fact": 1.14, "naive": 373.26, "discount_rate": 0.2}, "monthly": {"months": [202501, 202502, 202503, 202504, 202505, 202506, 202507, 202508, 202509, 202510, 202511, 202512, 202601, 202602, 202603, 202604, 202605, 202606, 202607, 202608, 202609, 202610, 202611, 202612], "pilot": [822.63, 823.95, 834.01, 854.2, 861.59, 873.98, 867.08, 845.24, 816.62, 800.61, 783.82, 899.21, 793.62, 824.7, 844.08, 877.24, 901.14, 916.44, 911.26, 894.91, 874.41, 847.42, 835.48, 963.98], "control": [779.91, 773.8, 779.07, 791.33, 807.02, 813.89, 807.0, 791.39, 769.17, 748.25, 732.58, 850.03, 737.81, 759.43, 787.23, 816.05, 837.92, 838.54, 840.08, 829.7, 802.55, 784.01, 769.15, 892.26], "start": 202601}, "event": {"points": [{"rel_month": -12, "coef": -6.445, "se": 7.184}, {"rel_month": -11, "coef": 0.98, "se": 7.27}, {"rel_month": -10, "coef": 5.775, "se": 6.451}, {"rel_month": -9, "coef": 13.696, "se": 8.669}, {"rel_month": -8, "coef": 5.394, "se": 10.136}, {"rel_month": -7, "coef": 10.922, "se": 8.459}, {"rel_month": -6, "coef": 10.913, "se": 8.686}, {"rel_month": -5, "coef": 4.678, "se": 8.829}, {"rel_month": -4, "coef": -1.717, "se": 8.461}, {"rel_month": -3, "coef": 3.192, "se": 8.002}, {"rel_month": -2, "coef": 2.069, "se": 7.501}, {"rel_month": 0, "coef": 6.647, "se": 7.527}, {"rel_month": 1, "coef": 16.099, "se": 7.86}, {"rel_month": 2, "coef": 7.68, "se": 8.021}, {"rel_month": 3, "coef": 12.024, "se": 7.197}, {"rel_month": 4, "coef": 14.044, "se": 6.472}, {"rel_month": 5, "coef": 28.732, "se": 8.004}, {"rel_month": 6, "coef": 22.004, "se": 8.906}, {"rel_month": 7, "coef": 16.043, "se": 8.331}, {"rel_month": 8, "coef": 22.685, "se": 7.908}, {"rel_month": 9, "coef": 14.236, "se": 7.606}, {"rel_month": 10, "coef": 17.157, "se": 8.017}, {"rel_month": 11, "coef": 22.55, "se": 9.272}], "slope": -0.058, "slope_p": 0.9079, "placebo": -1.8646, "placebo_p": 0.6568, "ok": true}, "decomp": {"fact": [{"label": "Interchange", "value": 56.6291, "ci": [46.7154, 66.5427]}, {"label": "Доход на остатки", "value": 49.8683, "ci": [43.1077, 56.6289]}, {"label": "Кэшбэк за вычетом партнёров", "value": -93.9603, "ci": [-103.0158, -84.9048]}], "net": 12.537}, "segments": [{"label": "Состоятельный", "value": 32.8341, "lo": 15.7126, "hi": 49.9555, "clients": 4992, "p": 0.0004}, {"label": "Массовый", "value": 7.0719, "lo": 2.7603, "hi": 11.3834, "clients": 14002, "p": 0.002}, {"label": "Премиальный", "value": -2.0622, "lo": -110.0284, "hi": 105.9039, "clients": 1006, "p": 0.9694}], "fcf": {"plan": [-450.0, 87.1, 467.1, 694.8, 612.6, 538.6], "fact": [-450.0, -48.3, 182.9, 329.5, 283.8, 242.6]}, "cashflow_fact": {"margin": [0.0, 225.7, 473.9, 609.3, 548.4, 493.5], "opex": [0.0, 140.0, 140.0, 140.0, 140.0, 140.0], "marketing": [0.0, 180.0, 120.0, 60.0, 60.0, 60.0], "ebitda": [0.0, -94.3, 213.9, 409.3, 348.4, 293.5], "tax": [0.0, -46.1, 31.0, 79.8, 64.6, 50.9], "fcf": [-450.0, -48.3, 182.9, 329.5, 283.8, 242.6]}, "tornado": [{"driver": "Эффект на клиента", "npv_at_-20%_mln": -138.0, "npv_at_+20%_mln": 261.7, "swing_mln": 399.8}, {"driver": "Охват клиентов", "npv_at_-20%_mln": -138.0, "npv_at_+20%_mln": 261.7, "swing_mln": 399.8}, {"driver": "CAPEX", "npv_at_-20%_mln": 138.4, "npv_at_+20%_mln": -14.7, "swing_mln": 153.1}, {"driver": "OPEX", "npv_at_-20%_mln": 124.7, "npv_at_+20%_mln": -0.9, "swing_mln": 125.6}, {"driver": "Ставка дисконтирования", "npv_at_-20%_mln": 127.7, "npv_at_+20%_mln": 5.7, "swing_mln": 122.0}, {"driver": "Затухание эффекта", "npv_at_-20%_mln": 106.4, "npv_at_+20%_mln": 19.0, "swing_mln": 87.4}], "base_npv": 61.9, "mc": {"edges": [-901.7, -855.9, -810.1, -764.3, -718.4, -672.6, -626.8, -581.0, -535.1, -489.3, -443.5, -397.7, -351.8, -306.0, -260.2, -214.4, -168.5, -122.7, -76.9, -31.1, 14.8, 60.6, 106.4, 152.2, 198.1, 243.9, 289.7, 335.5, 381.4, 427.2, 473.0, 518.8, 564.7, 610.5, 656.3, 702.1, 748.0, 793.8, 839.6, 885.4, 931.3], "counts": [12, 14, 25, 40, 55, 63, 66, 91, 98, 175, 173, 195, 232, 226, 215, 264, 269, 268, 256, 252, 238, 198, 210, 192, 153, 156, 157, 114, 122, 86, 66, 54, 50, 44, 27, 28, 25, 20, 13, 8], "n": 5000, "p": 0.411, "p5": -612.0, "p50": -77.9, "p95": 553.3, "es": -742.7}, "design": {"regions_pilot": 20, "regions_control": 20, "clients": 20000, "pre": 12, "post": 12, "dq": "ok"}, "assumptions": {"discount_rate": 0.2, "tax_rate": 0.25, "clients": [1500000, 3500000, 5000000, 5000000, 5000000], "decay": 0.1, "capex_mln": 450.0, "opex_mln": 140.0}}</script>
+
+<header class="hero">
+  <div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="eyebrow"><span>Оценка бизнес-инициативы</span><span id="owner"></span><span id="date"></span></div>
+    <h1 id="title"></h1>
+    <p class="lede" id="lede"></p>
+    <div class="verdict" id="verdict">
+      <div><span class="pill" id="rec"></span></div>
+      <div class="summary" id="summary"></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="tiles" id="tiles"></div>
+
+  <section aria-labelledby="s-plan">
+    <div class="section-head">
+      <h2 id="s-plan">План против факта</h2>
+      <p class="muted">Эффект на клиента в месяц (ITT, ₽): каждый клиент региона пилота, подключил он опцию или нет. Именно этот эффект переносится на сеть при масштабировании.</p>
+    </div>
+    <div class="grid-2">
+      <article class="card">
+        <header><h3>Эффект бизнес-кейса и пилота</h3><p class="small muted">Точка — оценка, отрезок — 95% доверительный интервал. Вертикальная линия — точка безубыточности по NPV.</p></header>
+        <div class="legend"><span><i class="key-dot" style="background:var(--neutral)"></i>План</span><span><i class="key-dot" style="background:var(--pos)"></i>Факт</span></div>
+        <div class="chart" id="c-forest"></div>
+      </article>
+      <article class="card">
+        <header><h3>Ключевые показатели</h3><p class="small muted">Сценарий «план» — допущения бизнес-кейса, «факт» — эффект пилота при том же плане масштабирования.</p></header>
+        <div class="tbl-wrap"><table class="compare" id="t-compare"></table></div>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-pilot">
+    <div class="section-head">
+      <h2 id="s-pilot">Что показал пилот</h2>
+      <p class="muted" id="design-text"></p>
+    </div>
+    <div class="grid-2">
+      <article class="card">
+        <header><h3>Чистый доход на клиента по месяцам, ₽</h3><p class="small muted">Средние по группам до и после старта пилота. Разрыв после старта и есть эффект.</p></header>
+        <div class="legend"><span><i class="key-line" style="background:var(--pos)"></i>Регионы пилота</span><span><i class="key-line" style="background:var(--neutral)"></i>Контрольные регионы</span></div>
+        <div class="chart" id="c-monthly"></div>
+        <details><summary>Таблица</summary><div class="tbl-wrap"><table id="t-monthly"></table></div></details>
+      </article>
+      <article class="card">
+        <header><h3>Проверка параллельности трендов</h3><p class="small muted" id="event-text"></p></header>
+        <div class="chart" id="c-event"></div>
+        <details><summary>Таблица</summary><div class="tbl-wrap"><table id="t-event"></table></div></details>
+      </article>
+      <article class="card">
+        <header><h3>Из чего сложился эффект, ₽ на клиента в месяц</h3><p class="small muted">Рост оборота и остатков почти целиком уходит на кэшбэк. Отрезки — 95% интервалы.</p></header>
+        <div class="legend"><span><i class="key-rect" style="background:var(--pos)"></i>Доход</span><span><i class="key-rect" style="background:var(--neg)"></i>Расход</span></div>
+        <div class="chart" id="c-decomp"></div>
+      </article>
+      <article class="card">
+        <header><h3>Эффект по сегментам, ₽ на клиента в месяц</h3><p class="small muted">У состоятельных клиентов эффект в несколько раз выше. У премиальных выборка слишком мала для вывода.</p></header>
+        <div class="chart" id="c-segments"></div>
+        <details><summary>Таблица</summary><div class="tbl-wrap"><table id="t-segments"></table></div></details>
+      </article>
+    </div>
+    <p class="small muted" id="naive" style="margin-top:16px;max-width:72ch"></p>
+  </section>
+
+  <section aria-labelledby="s-money">
+    <div class="section-head">
+      <h2 id="s-money">Экономика масштабирования</h2>
+      <p class="muted" id="money-text"></p>
+    </div>
+    <div class="grid-2">
+      <article class="card">
+        <header><h3>Свободный денежный поток по годам, млн ₽</h3><p class="small muted">Год 0 — инвестиции. Налог учтён, убытки дают налоговый щит.</p></header>
+        <div class="legend"><span><i class="key-rect" style="background:var(--neutral)"></i>План</span><span><i class="key-rect" style="background:var(--pos)"></i>Факт</span></div>
+        <div class="chart" id="c-fcf"></div>
+        <details><summary>Таблица денежных потоков (факт)</summary><div class="tbl-wrap"><table id="t-cf"></table></div></details>
+      </article>
+      <article class="card">
+        <header><h3>Распределение NPV, млн ₽</h3><p class="small muted" id="mc-text"></p></header>
+        <div class="legend"><span><i class="key-rect" style="background:var(--pos)"></i>NPV ≥ 0</span><span><i class="key-rect" style="background:var(--neg)"></i>NPV &lt; 0</span></div>
+        <div class="chart" id="c-mc"></div>
+      </article>
+      <article class="card" style="grid-column: 1 / -1">
+        <header><h3>Чувствительность NPV к драйверам, млн ₽</h3><p class="small muted" id="tornado-text"></p></header>
+        <div class="legend"><span><i class="key-rect" style="background:var(--pos)"></i>NPV растёт</span><span><i class="key-rect" style="background:var(--neg)"></i>NPV падает</span></div>
+        <div class="chart" id="c-tornado"></div>
+        <details><summary>Таблица</summary><div class="tbl-wrap"><table id="t-tornado"></table></div></details>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-risks">
+    <div class="grid-2">
+      <div class="prose">
+        <h2 id="s-risks">Риски и условия</h2>
+        <div id="risks"></div>
+      </div>
+      <div class="prose">
+        <h2>Допущения и метод</h2>
+        <dl class="facts" id="facts"></dl>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p>Отчёт сформирован автоматически агентом финансовой оценки <a href="https://github.com/kae19714-cyber/fin-eval-agent">fin-eval-agent</a>. Личный проект. Данные пилота синтетические, с известным истинным эффектом для проверки методики. Оформление в духе открытой дизайн-системы SDDS.</p>
+</footer>
+
+<div class="tooltip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+const D = JSON.parse(document.getElementById("report-data").textContent);
+const NS = "http://www.w3.org/2000/svg";
+const nf = (v, d = 1) => v == null ? "—" : new Intl.NumberFormat("ru-RU", { minimumFractionDigits: d, maximumFractionDigits: d }).format(v);
+const pct = (v, d = 0) => v == null ? "—" : nf(v * 100, d) + "%";
+const sgn = (v, d = 1) => (v > 0 ? "+" : v < 0 ? "−" : "") + nf(Math.abs(v), d);
+const monthName = m => { const y = Math.floor(m / 100), mm = m % 100; return ["янв","фев","мар","апр","май","июн","июл","авг","сен","окт","ноя","дек"][mm - 1] + " " + String(y).slice(2); };
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+function el(tag, attrs = {}, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function txt(parent, x, y, s, attrs = {}) { const t = el("text", { x, y, ...attrs }, parent); t.textContent = s; return t; }
+function h(tag, text, cls) { const e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; }
+function niceTicks(lo, hi, n = 5) {
+  const span = hi - lo, step0 = span / n, mag = Math.pow(10, Math.floor(Math.log10(step0)));
+  const step = [1, 2, 2.5, 5, 10].map(s => s * mag).find(s => span / s <= n + 0.5);
+  const t = [], start = Math.floor(lo / step + 1e-9) * step, end = Math.ceil(hi / step - 1e-9) * step;
+  for (let v = start; v <= end + 1e-9; v += step) t.push(+v.toFixed(10));
+  return t;
+}
+function bar(parent, x, y, w, hgt, r, dir, fill, cls = "mark") {
+  // скругление 4px только на «конце данных», у базовой линии угол прямой
+  r = Math.min(r, Math.abs(w) / 2, Math.abs(hgt) / 2);
+  let d;
+  if (dir === "up") d = `M${x},${y + hgt}V${y + r}Q${x},${y} ${x + r},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + hgt}Z`;
+  else if (dir === "down") d = `M${x},${y}V${y + hgt - r}Q${x},${y + hgt} ${x + r},${y + hgt}H${x + w - r}Q${x + w},${y + hgt} ${x + w},${y + hgt - r}V${y}Z`;
+  else if (dir === "right") d = `M${x},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + hgt - r}Q${x + w},${y + hgt} ${x + w - r},${y + hgt}H${x}Z`;
+  else d = `M${x + w},${y}H${x + r}Q${x},${y} ${x},${y + r}V${y + hgt - r}Q${x},${y + hgt} ${x + r},${y + hgt}H${x + w}Z`;
+  return el("path", { d, fill, class: cls }, parent);
+}
+
+// ---------- tooltip ----------
+const tip = document.getElementById("tip");
+function showTip(evt, title, rows) {
+  tip.replaceChildren();
+  tip.appendChild(h("div", title, "t-title"));
+  for (const r of rows) {
+    const row = h("div", null, "t-row");
+    const k = h("i", null, "key-line"); k.style.background = r.color || "transparent";
+    const v = h("div"); const b = h("b", r.value); v.appendChild(b);
+    if (r.label) v.appendChild(document.createTextNode(" " + r.label));
+    row.append(k, v); tip.appendChild(row);
+  }
+  let x, y;
+  if (evt.clientX != null && evt.type !== "focus") { x = evt.clientX; y = evt.clientY; }
+  else { const b = evt.target.getBoundingClientRect(); x = b.left + b.width / 2; y = b.top; }
+  tip.classList.add("on");
+  const tw = tip.offsetWidth, th = tip.offsetHeight;
+  let left = x + 14, top = y - th - 10;
+  if (left + tw > innerWidth - 8) left = x - tw - 14;
+  if (top < 8) top = y + 16;
+  tip.style.left = left + "px"; tip.style.top = top + "px";
+}
+const hideTip = () => tip.classList.remove("on");
+function hover(node, fn) {
+  node.setAttribute("tabindex", "0");
+  node.addEventListener("pointermove", e => fn(e));
+  node.addEventListener("focus", e => fn(e));
+  node.addEventListener("pointerleave", hideTip);
+  node.addEventListener("blur", hideTip);
+}
+function fillTable(id, head, rows) {
+  const t = document.getElementById(id); t.replaceChildren();
+  const tr = h("tr"); head.forEach(c => tr.appendChild(h("th", c))); const th = h("thead"); th.appendChild(tr); t.appendChild(th);
+  const tb = h("tbody"); rows.forEach(r => { const row = h("tr"); r.forEach(c => row.appendChild(h("td", c))); tb.appendChild(row); }); t.appendChild(tb);
+}
+
+// ---------- шапка и плитки ----------
+const M = D.meta, K = D.kpi;
+document.getElementById("title").textContent = M.name;
+document.getElementById("owner").textContent = M.owner;
+document.getElementById("date").textContent = M.date;
+document.getElementById("lede").textContent = M.description;
+const recEl = document.getElementById("rec");
+recEl.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 8.2l2 2 4-4.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+recEl.appendChild(document.createTextNode(M.recommendation.charAt(0).toUpperCase() + M.recommendation.slice(1)));
+const v = document.getElementById("verdict");
+v.classList.add(M.recommendation.startsWith("масштабировать") ? (M.recommendation === "масштабировать" ? "go" : "cond") : M.recommendation === "остановить" ? "stop" : "cond");
+const sum = document.getElementById("summary");
+M.summary.split(/\n\s*\n/).forEach(p => sum.appendChild(h("p", p.trim())));
+sum.appendChild(h("p", (M.recommendation === M.rule.recommendation ? "Совпадает с формальным правилом: " : "Отступает от формального правила («" + M.rule.recommendation + "»): ") + M.rule.reason + ".", "rule"));
+
+const tiles = [
+  { label: "Эффект на клиента в месяц", value: nf(K.itt_fact, 1), unit: "₽", delta: ["План ", nf(K.itt_plan, 1) + " ₽"] },
+  { label: "NPV масштабирования", value: nf(K.npv_fact, 0), unit: "млн ₽", delta: ["План ", nf(K.npv_plan, 0) + " млн ₽"] },
+  { label: "Вероятность NPV > 0", value: pct(K.p_fact), unit: "", delta: ["План ", pct(K.p_plan)] },
+  { label: "Точка безубыточности", value: nf(K.breakeven, 1), unit: "₽", delta: ["Нижняя граница факта ", nf(K.itt_ci[0], 1) + " ₽"] },
+];
+const tilesEl = document.getElementById("tiles");
+for (const t of tiles) {
+  const d = h("div", null, "tile");
+  d.appendChild(h("div", t.label, "label"));
+  const val = h("div", t.value, "value"); if (t.unit) val.appendChild(h("small", t.unit)); d.appendChild(val);
+  const de = h("div", t.delta[0], "delta"); de.appendChild(h("b", t.delta[1])); d.appendChild(de);
+  tilesEl.appendChild(d);
+}
+
+// ---------- 1. план/факт: forest ----------
+function forest(id, rows, opts = {}) {
+  const host = document.getElementById(id);
+  const W = 520, rowH = opts.rowH || (rows.length <= 2 ? 72 : 48), padL = opts.padL || 110, padR = 56, padT = 8, axisH = 28;
+  const H = padT + rows.length * rowH + axisH;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": opts.aria || "" }, host);
+  const vals = rows.flatMap(r => [r.lo ?? r.value, r.hi ?? r.value]).concat(opts.refs ? opts.refs.map(r => r.x) : []).concat([0]);
+  let lo = Math.min(...vals), hi = Math.max(...vals); const pad = (hi - lo) * 0.08; lo -= pad; hi += pad;
+  const ticks = niceTicks(lo, hi, 5); lo = Math.min(lo, ticks[0]); hi = Math.max(hi, ticks[ticks.length - 1]);
+  const x = v => padL + (v - lo) / (hi - lo) * (W - padL - padR);
+  const g = el("g", { class: "grid" }, svg);
+  ticks.forEach(t => { el("line", { x1: x(t), x2: x(t), y1: padT, y2: H - axisH }, g); txt(svg, x(t), H - 8, nf(t, 0), { "text-anchor": "middle" }); });
+  el("line", { x1: x(0), x2: x(0), y1: padT, y2: H - axisH, class: "ref" }, svg);
+  (opts.refs || []).forEach(r => {
+    el("line", { x1: x(r.x), x2: x(r.x), y1: padT - 4, y2: H - axisH, stroke: "var(--warn)", "stroke-width": 1.5 }, svg);
+    txt(svg, x(r.x) + 6, padT + 8, r.label, { "font-size": 11 });
+  });
+  rows.forEach((r, i) => {
+    const cy = padT + i * rowH + rowH / 2, color = r.color;
+    txt(svg, 0, cy + 4, r.label, { class: r.strong ? "strong" : "" });
+    if (r.lo != null) el("line", { x1: x(r.lo), x2: x(r.hi), y1: cy, y2: cy, stroke: color, "stroke-width": 2, "stroke-linecap": "round", class: "mark" }, svg);
+    el("circle", { cx: x(r.value), cy, r: 6, fill: color, stroke: "var(--card)", "stroke-width": 2, class: "mark" }, svg);
+    txt(svg, W - padR + 8, cy + 4, nf(r.value, 1), { class: "strong" });
+    const hit = el("rect", { x: padL - 4, y: cy - rowH / 2, width: W - padL - padR + 8, height: rowH, class: "hit", "aria-label": r.label + ": " + nf(r.value, 2) }, svg);
+    hover(hit, e => showTip(e, r.label, [{ color, value: nf(r.value, 2) + " ₽", label: r.lo != null ? `ДИ ${nf(r.lo, 1)}…${nf(r.hi, 1)}` : "" }].concat(r.extra || [])));
+  });
+}
+forest("c-forest", [
+  { label: "План", value: K.itt_plan, color: "var(--neutral)", extra: [{ value: pct(K.take_up_plan, 0), label: "подключений, " + nf(K.att_plan, 1) + " ₽ на подключившего" }] },
+  { label: "Факт", value: K.itt_fact, lo: K.itt_ci[0], hi: K.itt_ci[1], color: "var(--pos)", strong: true, extra: [{ value: pct(K.take_up_fact, 1), label: "подключений, " + nf(K.att_fact, 1) + " ₽ на подключившего" }] },
+], { refs: [{ x: K.breakeven, label: "безубыточность " + nf(K.breakeven, 1) }], aria: "Эффект плана и факта" });
+
+fillTable("t-compare", ["Показатель", "План", "Факт"], [
+  ["Подключили опцию", pct(K.take_up_plan, 1), pct(K.take_up_fact, 1)],
+  ["Эффект на подключившего, ₽/мес", nf(K.att_plan, 1), nf(K.att_fact, 1)],
+  ["Эффект на клиента, ₽/мес", nf(K.itt_plan, 1), nf(K.itt_fact, 1)],
+  ["NPV при ставке " + pct(K.discount_rate) + ", млн ₽", nf(K.npv_plan, 1), nf(K.npv_fact, 1)],
+  ["IRR", pct(K.irr_plan, 1), pct(K.irr_fact, 1)],
+  ["Дисконтированная окупаемость, лет", nf(K.payback_plan, 1), nf(K.payback_fact, 1)],
+  ["Индекс доходности", nf(K.pi_plan, 2), nf(K.pi_fact, 2)],
+  ["Вероятность NPV > 0", pct(K.p_plan), pct(K.p_fact)],
+]);
+document.querySelectorAll("#t-compare tbody tr").forEach(tr => { tr.children[1].className = "plan"; tr.children[2].className = "fact"; });
+
+// ---------- 2. помесячные ряды ----------
+(() => {
+  const S = D.monthly, host = document.getElementById("c-monthly");
+  const W = 520, H = 260, padL = 44, padR = 16, padT = 16, padB = 28;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Чистый доход по месяцам" }, host);
+  const all = S.pilot.concat(S.control);
+  const ticks = niceTicks(Math.min(...all) * 0.95, Math.max(...all) * 1.03, 4);
+  const lo = ticks[0], hi = ticks[ticks.length - 1], n = S.months.length;
+  const x = i => padL + i / (n - 1) * (W - padL - padR), y = v => padT + (hi - v) / (hi - lo) * (H - padT - padB);
+  const g = el("g", { class: "grid" }, svg);
+  ticks.forEach(t => { el("line", { x1: padL, x2: W - padR, y1: y(t), y2: y(t) }, g); txt(svg, padL - 8, y(t) + 4, nf(t, 0), { "text-anchor": "end" }); });
+  S.months.forEach((m, i) => { if (m % 100 === 1 || m % 100 === 7) txt(svg, x(i), H - 8, monthName(m), { "text-anchor": "middle" }); });
+  const si = S.months.indexOf(S.start);
+  el("rect", { x: x(si) - (x(1) - x(0)) / 2, y: padT, width: W - padR - x(si) + (x(1) - x(0)) / 2, height: H - padT - padB, fill: "var(--accent-wash)", opacity: .5 }, svg);
+  txt(svg, x(si) + 6, padT + 12, "пилот", { "font-size": 11 });
+  const path = arr => arr.map((v, i) => (i ? "L" : "M") + x(i).toFixed(1) + "," + y(v).toFixed(1)).join("");
+  el("path", { d: path(S.control), fill: "none", stroke: "var(--neutral)", "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
+  el("path", { d: path(S.pilot), fill: "none", stroke: "var(--pos)", "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
+  const last = n - 1;
+  el("circle", { cx: x(last), cy: y(S.pilot[last]), r: 4, fill: "var(--pos)", stroke: "var(--card)", "stroke-width": 2 }, svg);
+  el("circle", { cx: x(last), cy: y(S.control[last]), r: 4, fill: "var(--neutral)", stroke: "var(--card)", "stroke-width": 2 }, svg);
+  const cross = el("line", { x1: 0, x2: 0, y1: padT, y2: H - padB, stroke: "var(--ink-3)", "stroke-width": 1, opacity: 0 }, svg);
+  const hit = el("rect", { x: padL, y: padT, width: W - padL - padR, height: H - padT - padB, class: "hit", "aria-label": "Наведите для значений по месяцам" }, svg);
+  const pick = e => {
+    const b = svg.getBoundingClientRect();
+    const px = e.clientX != null && e.type !== "focus" ? (e.clientX - b.left) / b.width * W : x(last);
+    const i = Math.max(0, Math.min(n - 1, Math.round((px - padL) / (W - padL - padR) * (n - 1))));
+    cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("opacity", 1);
+    showTip(e, monthName(S.months[i]), [
+      { color: "var(--pos)", value: nf(S.pilot[i], 0) + " ₽", label: "пилот" },
+      { color: "var(--neutral)", value: nf(S.control[i], 0) + " ₽", label: "контроль" },
+    ]);
+  };
+  hover(hit, pick); hit.addEventListener("pointerleave", () => cross.setAttribute("opacity", 0));
+  fillTable("t-monthly", ["Месяц", "Пилот, ₽", "Контроль, ₽"], S.months.map((m, i) => [monthName(m), nf(S.pilot[i], 0), nf(S.control[i], 0)]));
+})();
+
+// ---------- 3. event study ----------
+(() => {
+  const E = D.event, host = document.getElementById("c-event");
+  document.getElementById("event-text").textContent =
+    `Разница пилот − контроль по месяцам относительно старта (база — месяц −1), с 95% интервалами. До старта точки должны лежать около нуля. Наклон до пилота ${nf(E.slope, 2)} ₽/мес (p = ${nf(E.slope_p, 2)}), placebo ${nf(E.placebo, 1)} ₽ (p = ${nf(E.placebo_p, 2)}): ${E.ok ? "предпосылка выполняется." : "предпосылка нарушена!"}`;
+  const pts = E.points.concat([{ rel_month: -1, coef: 0, se: 0 }]).sort((a, b) => a.rel_month - b.rel_month);
+  const W = 520, H = 260, padL = 44, padR = 16, padT = 16, padB = 28;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Event study" }, host);
+  const los = pts.map(p => p.coef - 1.96 * p.se), his = pts.map(p => p.coef + 1.96 * p.se);
+  const ticks = niceTicks(Math.min(...los, 0), Math.max(...his, 0), 5);
+  const lo = ticks[0], hi = ticks[ticks.length - 1];
+  const k0 = pts[0].rel_month, k1 = pts[pts.length - 1].rel_month;
+  const x = k => padL + (k - k0 + 0.5) / (k1 - k0 + 1) * (W - padL - padR), y = v => padT + (hi - v) / (hi - lo) * (H - padT - padB);
+  const g = el("g", { class: "grid" }, svg);
+  ticks.forEach(t => { el("line", { x1: padL, x2: W - padR, y1: y(t), y2: y(t) }, g); txt(svg, padL - 8, y(t) + 4, nf(t, 0), { "text-anchor": "end" }); });
+  el("line", { x1: padL, x2: W - padR, y1: y(0), y2: y(0), class: "ref" }, svg);
+  el("line", { x1: (x(-1) + x(0)) / 2, x2: (x(-1) + x(0)) / 2, y1: padT, y2: H - padB, stroke: "var(--ink-3)", "stroke-width": 1 }, svg);
+  txt(svg, (x(-1) + x(0)) / 2 + 6, padT + 12, "старт", { "font-size": 11 });
+  [-12, -6, 0, 6, 11].forEach(k => { if (k >= k0 && k <= k1) txt(svg, x(k), H - 8, (k > 0 ? "+" : "") + k, { "text-anchor": "middle" }); });
+  pts.forEach(p => {
+    const c = p.rel_month < 0 ? "var(--neutral)" : "var(--pos)";
+    if (p.se > 0) el("line", { x1: x(p.rel_month), x2: x(p.rel_month), y1: y(p.coef - 1.96 * p.se), y2: y(p.coef + 1.96 * p.se), stroke: c, "stroke-width": 2, "stroke-linecap": "round", opacity: .55 }, svg);
+    el("circle", { cx: x(p.rel_month), cy: y(p.coef), r: 4, fill: c, stroke: "var(--card)", "stroke-width": 2 }, svg);
+    const hit = el("rect", { x: x(p.rel_month) - 9, y: padT, width: 18, height: H - padT - padB, class: "hit", "aria-label": `Месяц ${p.rel_month}: ${nf(p.coef, 1)}` }, svg);
+    hover(hit, e => showTip(e, `Месяц ${p.rel_month > 0 ? "+" : ""}${p.rel_month} от старта`, [{ color: c, value: sgn(p.coef, 1) + " ₽", label: p.se > 0 ? `ДИ ${nf(p.coef - 1.96 * p.se, 0)}…${nf(p.coef + 1.96 * p.se, 0)}` : "база" }]));
+  });
+  fillTable("t-event", ["Месяц от старта", "Коэффициент, ₽", "Ст. ошибка"], pts.map(p => [String(p.rel_month), nf(p.coef, 2), nf(p.se, 2)]));
+})();
+
+// ---------- 4. декомпозиция (водопад) ----------
+(() => {
+  const C = D.decomp, host = document.getElementById("c-decomp");
+  const steps = []; let run = 0;
+  C.fact.forEach(c => { steps.push({ ...c, from: run, to: run + c.value }); run += c.value; });
+  steps.push({ label: "Чистый эффект", value: C.net, from: 0, to: C.net, total: true });
+  const W = 520, rowH = 46, padL = 190, padR = 64, padT = 4, axisH = 28, H = padT + steps.length * rowH + axisH;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Декомпозиция эффекта" }, host);
+  const ext = steps.flatMap(s => [s.from, s.to]).concat(steps.filter(s => s.ci).flatMap(s => [s.from + s.ci[0], s.from + s.ci[1]]));
+  const ticks = niceTicks(Math.min(0, ...ext), Math.max(...ext), 5);
+  const lo = ticks[0], hi = ticks[ticks.length - 1];
+  const x = v => padL + (v - lo) / (hi - lo) * (W - padL - padR);
+  const g = el("g", { class: "grid" }, svg);
+  ticks.forEach(t => { el("line", { x1: x(t), x2: x(t), y1: padT, y2: H - axisH }, g); txt(svg, x(t), H - 8, nf(t, 0), { "text-anchor": "middle" }); });
+  el("line", { x1: x(0), x2: x(0), y1: padT, y2: H - axisH, class: "ref" }, svg);
+  steps.forEach((s, i) => {
+    const cy = padT + i * rowH + rowH / 2, bh = 20, color = s.value >= 0 ? "var(--pos)" : "var(--neg)";
+    const a = x(Math.min(s.from, s.to)), b = x(Math.max(s.from, s.to));
+    txt(svg, 0, cy + 4, s.label, { class: s.total ? "strong" : "" });
+    bar(svg, a, cy - bh / 2, Math.max(b - a, 1), bh, 4, s.value >= 0 ? "right" : "left", color);
+    if (s.ci) el("line", { x1: x(s.from + s.ci[0]), x2: x(s.from + s.ci[1]), y1: cy, y2: cy, stroke: "var(--ink)", "stroke-width": 1.5, opacity: .5 }, svg);
+    if (i < steps.length - 1 && !s.total) el("line", { x1: x(s.to), x2: x(s.to), y1: cy + bh / 2, y2: cy + rowH - bh / 2, stroke: "var(--ink-3)", "stroke-width": 1 }, svg);
+    txt(svg, Math.max(b, s.ci ? x(s.from + Math.max(...s.ci)) : b) + 8, cy + 4, sgn(s.value, 1), { class: "strong" });
+    const hit = el("rect", { x: 0, y: cy - rowH / 2, width: W, height: rowH, class: "hit", "aria-label": s.label + " " + sgn(s.value, 2) }, svg);
+    hover(hit, e => showTip(e, s.label, [{ color, value: sgn(s.value, 2) + " ₽", label: s.ci ? `ДИ ${sgn(s.ci[0], 1)}…${sgn(s.ci[1], 1)}` : "на клиента в месяц" }]));
+  });
+})();
+
+// ---------- 5. сегменты ----------
+(() => {
+  const S = D.segments;
+  if (!S.length) return;
+  forest("c-segments", S.map(s => ({ label: s.label, value: s.value, lo: s.lo, hi: s.hi, color: "var(--pos)",
+    extra: [{ value: nf(s.clients, 0), label: "клиентов" }, { value: "p = " + nf(s.p, 3), label: "" }] })),
+    { refs: [{ x: K.breakeven, label: "безубыточность" }], padL: 120, aria: "Эффект по сегментам" });
+  fillTable("t-segments", ["Сегмент", "Клиентов", "Эффект, ₽", "95% ДИ", "p-value"], S.map(s => [s.label, nf(s.clients, 0), nf(s.value, 2), `${nf(s.lo, 1)}…${nf(s.hi, 1)}`, nf(s.p, 3)]));
+})();
+
+const Dz = D.design;
+document.getElementById("design-text").textContent =
+  `Разность разностей: ${Dz.regions_pilot} регионов пилота против ${Dz.regions_control} контрольных, ${nf(Dz.clients, 0)} клиентов, ${Dz.pre} месяцев до и ${Dz.post} после старта. Фиксированные эффекты клиента и месяца, ошибки кластеризованы по региону. Качество данных: ${Dz.dq === "ok" ? "без ошибок" : "есть ошибки"}.`;
+if (K.naive != null) document.getElementById("naive").textContent =
+  `Для сравнения: наивная разница «подключившие против остальных» — ${nf(K.naive, 0)} ₽ в месяц. Она завышает эффект в разы, потому что подключаются клиенты, которые и так больше тратят, и в расчётах не используется.`;
+
+// ---------- 6. FCF ----------
+(() => {
+  const F = D.fcf, host = document.getElementById("c-fcf"), n = F.plan.length;
+  const W = 520, H = 260, padL = 48, padR = 12, padT = 16, padB = 28;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Денежный поток по годам" }, host);
+  const ticks = niceTicks(Math.min(0, ...F.plan, ...F.fact), Math.max(...F.plan, ...F.fact), 5);
+  const lo = ticks[0], hi = ticks[ticks.length - 1];
+  const y = v => padT + (hi - v) / (hi - lo) * (H - padT - padB);
+  const band = (W - padL - padR) / n, bw = Math.min(22, band * 0.3);
+  const g = el("g", { class: "grid" }, svg);
+  ticks.forEach(t => { el("line", { x1: padL, x2: W - padR, y1: y(t), y2: y(t) }, g); txt(svg, padL - 8, y(t) + 4, nf(t, 0), { "text-anchor": "end" }); });
+  el("line", { x1: padL, x2: W - padR, y1: y(0), y2: y(0), class: "axis" }, svg);
+  for (let i = 0; i < n; i++) {
+    const cx = padL + band * (i + 0.5);
+    [["plan", "var(--neutral)", -1], ["fact", "var(--pos)", 1]].forEach(([k, c, side]) => {
+      const v = F[k][i], x0 = cx + (side < 0 ? -bw - 1 : 1);
+      bar(svg, x0, Math.min(y(v), y(0)), bw, Math.max(Math.abs(y(v) - y(0)), 1), 4, v >= 0 ? "up" : "down", c);
+    });
+    txt(svg, cx, H - 8, i === 0 ? "год 0" : String(i), { "text-anchor": "middle" });
+    const hit = el("rect", { x: cx - band / 2, y: padT, width: band, height: H - padT - padB, class: "hit", "aria-label": `Год ${i}` }, svg);
+    hover(hit, e => showTip(e, i === 0 ? "Год 0 — инвестиции" : `Год ${i}`, [
+      { color: "var(--pos)", value: nf(F.fact[i], 1) + " млн ₽", label: "факт" },
+      { color: "var(--neutral)", value: nf(F.plan[i], 1) + " млн ₽", label: "план" },
+    ]));
+  }
+  const CF = D.cashflow_fact, names = { margin: "Инкрементальная маржа", opex: "OPEX", marketing: "Маркетинг", ebitda: "EBITDA", tax: "Налог", fcf: "Свободный денежный поток" };
+  fillTable("t-cf", ["млн ₽"].concat(CF.fcf.map((_, i) => "Год " + i)), Object.keys(names).map(k => [names[k]].concat(CF[k].map(v => nf(v, 1)))));
+})();
+
+document.getElementById("money-text").textContent =
+  `Охват по годам: ${D.assumptions.clients.map(c => nf(c / 1e6, 1)).join(" → ")} млн клиентов, затухание эффекта ${pct(D.assumptions.decay)} в год, CAPEX ${nf(D.assumptions.capex_mln, 0)} млн ₽, OPEX ${nf(D.assumptions.opex_mln, 0)} млн ₽ в год, ставка ${pct(D.assumptions.discount_rate)}.`;
+
+// ---------- 7. Monte Carlo ----------
+(() => {
+  const C = D.mc, host = document.getElementById("c-mc");
+  document.getElementById("mc-text").textContent =
+    `${nf(C.n, 0)} сценариев: эффект берётся из статистики пилота, CAPEX, OPEX, охват и затухание — из диапазонов паспорта. Медиана ${nf(C.p50, 0)} млн ₽, 90% сценариев между ${nf(C.p5, 0)} и ${nf(C.p95, 0)} млн ₽.`;
+  if (!C.counts.length) return;
+  const W = 520, H = 260, padL = 40, padR = 12, padT = 28, padB = 28;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Распределение NPV" }, host);
+  const lo = C.edges[0], hi = C.edges[C.edges.length - 1], cmax = Math.max(...C.counts);
+  const x = v => padL + (v - lo) / (hi - lo) * (W - padL - padR), y = c => padT + (1 - c / cmax) * (H - padT - padB);
+  const ticks = niceTicks(lo, hi, 5);
+  const g = el("g", { class: "grid" }, svg);
+  ticks.forEach(t => { if (t >= lo && t <= hi) { el("line", { x1: x(t), x2: x(t), y1: padT, y2: H - padB }, g); txt(svg, x(t), H - 8, nf(t, 0), { "text-anchor": "middle" }); } });
+  el("line", { x1: padL, x2: W - padR, y1: H - padB, y2: H - padB, class: "axis" }, svg);
+  C.counts.forEach((c, i) => {
+    const a = C.edges[i], b = C.edges[i + 1], mid = (a + b) / 2, color = mid >= 0 ? "var(--pos)" : "var(--neg)";
+    const x0 = x(a) + 1, w = Math.max(x(b) - x(a) - 2, 1);
+    if (c > 0) bar(svg, x0, y(c), w, H - padB - y(c), 2, "up", color);
+    const hit = el("rect", { x: x(a), y: padT, width: x(b) - x(a), height: H - padT - padB, class: "hit", "aria-label": `${nf(a, 0)}…${nf(b, 0)}: ${c}` }, svg);
+    hover(hit, e => showTip(e, `NPV ${nf(a, 0)}…${nf(b, 0)} млн ₽`, [{ color, value: pct(c / C.n, 1), label: "сценариев" }]));
+  });
+  if (0 > lo && 0 < hi) {
+    el("line", { x1: x(0), x2: x(0), y1: padT - 12, y2: H - padB, stroke: "var(--ink)", "stroke-width": 1.5 }, svg);
+    txt(svg, x(0) + 6, padT - 2, `P(NPV > 0) = ${pct(C.p)}`, { class: "strong" });
+  }
+})();
+
+// ---------- 8. торнадо ----------
+(() => {
+  const T = D.tornado, base = D.base_npv, host = document.getElementById("c-tornado");
+  document.getElementById("tornado-text").textContent =
+    `Как меняется NPV факта (${nf(base, 0)} млн ₽), если каждый драйвер отклонить на ±20% при прочих равных. Эффект на клиента и охват действуют одинаково: маржа пропорциональна их произведению.`;
+  const W = 1040, rowH = 38, padL = 190, padR = 24, padT = 22, axisH = 26, H = padT + T.length * rowH + axisH;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Торнадо NPV" }, host);
+  const ext = T.flatMap(t => [t["npv_at_-20%_mln"], t["npv_at_+20%_mln"]]).concat([base, 0]);
+  const span0 = Math.max(...ext) - Math.min(...ext);
+  const ticks = niceTicks(Math.min(...ext) - span0 * 0.14, Math.max(...ext) + span0 * 0.14, 8);
+  const lo = ticks[0], hi = ticks[ticks.length - 1];
+  const x = v => padL + (v - lo) / (hi - lo) * (W - padL - padR);
+  const g = el("g", { class: "grid" }, svg);
+  ticks.forEach(t => { el("line", { x1: x(t), x2: x(t), y1: padT, y2: H - axisH }, g); txt(svg, x(t), H - 6, nf(t, 0), { "text-anchor": "middle" }); });
+  el("line", { x1: x(0), x2: x(0), y1: padT, y2: H - axisH, class: "ref" }, svg);
+  el("line", { x1: x(base), x2: x(base), y1: padT - 10, y2: H - axisH, stroke: "var(--ink)", "stroke-width": 1.5 }, svg);
+  txt(svg, x(base), padT - 12, "база " + nf(base, 0), { "text-anchor": "middle", class: "strong" });
+  T.forEach((t, i) => {
+    const cy = padT + i * rowH + rowH / 2, bh = 18;
+    txt(svg, 0, cy + 4, t.driver);
+    [["−20%", t["npv_at_-20%_mln"]], ["+20%", t["npv_at_+20%_mln"]]].forEach(([lab, v]) => {
+      const up = v >= base, color = up ? "var(--pos)" : "var(--neg)";
+      const a = x(Math.min(v, base)), b = x(Math.max(v, base));
+      if (b - a > 0.5) bar(svg, up ? a + 1 : a, cy - bh / 2, Math.max(b - a - 1, 1), bh, 4, up ? "right" : "left", color);
+      txt(svg, up ? b + 6 : a - 6, cy + 4, `${lab}: ${nf(v, 0)}`, { "text-anchor": up ? "start" : "end", "font-size": 11 });
+    });
+    const hit = el("rect", { x: 0, y: cy - rowH / 2, width: W, height: rowH, class: "hit", "aria-label": t.driver }, svg);
+    hover(hit, e => showTip(e, t.driver, [
+      { color: t["npv_at_-20%_mln"] >= base ? "var(--pos)" : "var(--neg)", value: nf(t["npv_at_-20%_mln"], 1) + " млн ₽", label: "при −20%" },
+      { color: t["npv_at_+20%_mln"] >= base ? "var(--pos)" : "var(--neg)", value: nf(t["npv_at_+20%_mln"], 1) + " млн ₽", label: "при +20%" },
+    ]));
+  });
+  fillTable("t-tornado", ["Драйвер", "NPV при −20%", "NPV при +20%", "Размах"], T.map(t => [t.driver, nf(t["npv_at_-20%_mln"], 1), nf(t["npv_at_+20%_mln"], 1), nf(t.swing_mln, 1)]));
+})();
+
+// ---------- риски и допущения ----------
+const risks = document.getElementById("risks");
+const lines = M.risks.split("\n").map(s => s.trim()).filter(Boolean);
+if (lines.every(l => /^[-•*]/.test(l))) { const ul = h("ul"); lines.forEach(l => ul.appendChild(h("li", l.replace(/^[-•*]\s*/, "")))); risks.appendChild(ul); }
+else lines.forEach(l => risks.appendChild(h("p", l)));
+const A = D.assumptions, facts = document.getElementById("facts");
+[
+  ["Метод оценки эффекта", "Разность разностей, FE клиента и месяца"],
+  ["Ошибки", "Кластеризованы по региону, t(G−1)"],
+  ["Ставка дисконтирования", pct(A.discount_rate)],
+  ["Налог на прибыль", pct(A.tax_rate)],
+  ["CAPEX", nf(A.capex_mln, 0) + " млн ₽"],
+  ["OPEX", nf(A.opex_mln, 0) + " млн ₽ в год"],
+  ["Затухание эффекта", pct(A.decay) + " в год"],
+  ["Горизонт", A.clients.length + " лет"],
+].forEach(([k, val]) => { const d = h("div"); d.append(h("dt", k), h("dd", val)); facts.appendChild(d); });
+})();
+</script>
+</body>
+</html>
