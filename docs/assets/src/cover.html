@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><link rel="stylesheet" href="_base.css">
+<style>
+body { width: 1280px; height: 640px; }
+.blobs i:nth-child(1){ width:460px;height:460px;left:700px;top:40px;background:rgba(26,158,50,.30);}
+.blobs i:nth-child(2){ width:440px;height:380px;left:920px;top:-80px;background:rgba(4,198,201,.24);}
+.blobs i:nth-child(3){ width:420px;height:340px;left:880px;top:360px;background:rgba(214,232,40,.26);}
+.wrap { position: relative; padding: 64px 72px; display: grid; grid-template-columns: 1fr 420px; gap: 48px; height: 100%; }
+.left { display: grid; align-content: space-between; }
+.brand { display: flex; align-items: center; gap: 14px; font: 600 22px/1 "Golos Text"; }
+h1 { font-size: 60px; line-height: 1.06; margin-top: 40px; }
+.sub { font-size: 21px; line-height: 30px; color: var(--ink-2); max-width: 30ch; margin-top: 20px; }
+.chips { display: flex; gap: 10px; flex-wrap: wrap; }
+.chip { background: rgba(255,255,255,.75); border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font-size: 15px; color: var(--ink-2); }
+.right { display: grid; gap: 14px; align-content: center; }
+.k { padding: 20px 22px; display: grid; gap: 4px; }
+.k .l { font-size: 14px; color: var(--ink-2); }
+.k .v { font: 500 36px/1.1 "Golos Text"; letter-spacing: -0.02em; }
+.k .v small { font-size: 18px; color: var(--ink-2); font-weight: 400; margin-left: 4px; }
+.k .d { font-size: 14px; color: var(--ink-2); }
+.k .d b { color: var(--ink); font-weight: 500; }
+.bar { height: 8px; border-radius: 4px; background: #EDEDED; overflow: hidden; margin-top: 8px; display: flex; gap: 2px; }
+.bar i { display: block; height: 100%; }
+</style></head><body>
+<div class="blobs"><i></i><i></i><i></i></div>
+<div class="wrap">
+  <div class="left">
+    <div>
+      <div class="brand"><span class="mark"><svg width="24" height="24" viewBox="0 0 16 16"><path d="M3 12V9M6.5 12V5M10 12V7.5M13.5 12V3.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>fin-eval-agent</div>
+      <h1>AI-агент финансовой оценки бизнес-инициатив</h1>
+      <p class="sub">От бизнес-кейса до фактического эффекта пилота и рекомендации инвесткомитету</p>
+    </div>
+    <div class="chips"><span class="chip">Claude · tool use</span><span class="chip">SQL · DuckDB · Spark</span><span class="chip">Diff-in-diff</span><span class="chip">NPV · Monte Carlo</span></div>
+  </div>
+  <div class="right">
+    <div class="card k"><div class="l">Эффект на клиента в месяц</div><div class="v">12,5<small>₽</small></div><div class="d">План <b>22,6 ₽</b> · истина в данных <b>13,6 ₽</b></div></div>
+    <div class="card k"><div class="l">NPV масштабирования</div><div class="v">62<small>млн ₽</small></div><div class="d">План <b>861 млн ₽</b></div></div>
+    <div class="card k"><div class="l">Вероятность NPV &gt; 0</div><div class="v">41%</div>
+      <div class="bar"><i style="width:59%;background:#C2408A"></i><i style="width:41%;background:#1A9E32"></i></div></div>
+  </div>
+</div>
+</body></html>

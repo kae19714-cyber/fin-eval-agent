@@ -156,6 +156,10 @@ TEMPLATE = r"""<!DOCTYPE html>
   --blob-2: rgba(4,198,201,.16);
   --blob-3: rgba(214,232,40,.18);
   --shadow: 0 4px 14px -4px rgba(8,8,8,.08), 0 1px 4px -1px rgba(0,0,0,.04);
+  --brand: #21A038;
+  --brand-hover: #1C8F31;
+  --grad: linear-gradient(45deg, #0D8523 0%, #0DA8AB 100%);
+  --surface-2: #F2F2F2;
   --font-display: "Onest", "SB Sans Display", "Golos Text", system-ui, sans-serif;
   --font-body: "Golos Text", "SB Sans Text", system-ui, -apple-system, "Segoe UI", sans-serif;
   --r-card: 20px;
@@ -163,6 +167,7 @@ TEMPLATE = r"""<!DOCTYPE html>
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --brand: #1A9E32; --brand-hover: #24B23E; --grad: linear-gradient(45deg, #1A9E32 0%, #04C6C9 100%); --surface-2: #1E1E1E;
     color-scheme: dark;
     --bg: #080808; --card: #141414; --ink: rgba(245,245,245,.96); --ink-2: rgba(245,245,245,.62);
     --ink-3: rgba(245,245,245,.40); --line: #2A2A2A; --grid: #222222; --accent: #24B23E;
@@ -172,6 +177,7 @@ TEMPLATE = r"""<!DOCTYPE html>
   }
 }
 :root[data-theme="dark"] {
+    --brand: #1A9E32; --brand-hover: #24B23E; --grad: linear-gradient(45deg, #1A9E32 0%, #04C6C9 100%); --surface-2: #1E1E1E;
   color-scheme: dark;
   --bg: #080808; --card: #141414; --ink: rgba(245,245,245,.96); --ink-2: rgba(245,245,245,.62);
   --ink-3: rgba(245,245,245,.40); --line: #2A2A2A; --grid: #222222; --accent: #24B23E;
@@ -194,6 +200,20 @@ p { margin: 0; }
 .muted { color: var(--ink-2); }
 .small { font-size: 14px; line-height: 20px; }
 .tnum { font-variant-numeric: tabular-nums; }
+
+/* верхняя панель */
+.topbar { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--card) 88%, transparent);
+  backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; gap: 28px; height: 60px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font: 600 17px/1 var(--font-body); color: var(--ink); text-decoration: none; letter-spacing: -0.02em; }
+.brand-mark { width: 28px; height: 28px; border-radius: 9px; background: var(--grad); display: grid; place-items: center; }
+.topbar nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.topbar nav a { color: var(--ink-2); text-decoration: none; font-size: 15px; padding: 8px 12px; border-radius: 10px; white-space: nowrap; }
+.topbar nav a:hover { background: var(--surface-2); color: var(--ink); }
+.topbar .cta { margin-left: auto; background: var(--brand); color: #fff; text-decoration: none; font: 600 14px/1 var(--font-body);
+  padding: 11px 18px; border-radius: 12px; white-space: nowrap; }
+.topbar .cta:hover { background: var(--brand-hover); }
+@media (max-width: 760px) { .topbar nav { display: none; } }
 
 /* шапка */
 .hero { position: relative; overflow: hidden; padding: 56px 0 40px; }
@@ -219,6 +239,9 @@ p { margin: 0; }
   background: var(--accent-wash); color: var(--ink); font-weight: 500; font-size: 15px; white-space: nowrap;
 }
 .pill svg { flex: none; }
+.verdict.go .pill { background: var(--brand); color: #fff; }
+.verdict.cond .pill { background: rgba(232,87,2,.12); }
+.verdict.stop .pill { background: rgba(194,64,138,.14); }
 .verdict .summary { display: grid; gap: 12px; max-width: 72ch; font-size: 17px; line-height: 26px; }
 .verdict .rule { font-size: 14px; color: var(--ink-2); }
 @media (max-width: 640px) { .verdict { grid-template-columns: 1fr; } }
@@ -235,11 +258,12 @@ p { margin: 0; }
 .tile .delta b { font-weight: 500; color: var(--ink); }
 
 /* секции */
-section { padding: 40px 0 8px; }
+section { padding: 40px 0 8px; scroll-margin-top: 72px; }
+h2[id] { scroll-margin-top: 80px; }
 .section-head { display: grid; gap: 8px; margin-bottom: 20px; max-width: 72ch; }
 .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
-.card { background: var(--card); border-radius: var(--r-card); padding: 20px 20px 16px; box-shadow: var(--shadow); display: grid; gap: 12px; min-width: 0; }
+.card { background: var(--card); border-radius: var(--r-card); padding: 20px 20px 16px; box-shadow: var(--shadow); display: grid; gap: 12px; min-width: 0; align-content: start; }
 .card header { display: grid; gap: 4px; }
 .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--ink-2); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
@@ -296,7 +320,12 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-
 <body>
 <script type="application/json" id="report-data">__DATA__</script>
 
-<header class="hero">
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="#top" id="top-link"><span class="brand-mark" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 12V9M6.5 12V5M10 12V7.5M13.5 12V3.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>fin-eval-agent</a>
+  <nav aria-label="Разделы отчёта"><a href="#s-plan">План и факт</a><a href="#s-pilot">Пилот</a><a href="#s-money">Экономика</a><a href="#s-risks">Риски</a></nav>
+  <a class="cta" href="https://github.com/kae19714-cyber/fin-eval-agent">Код на GitHub</a>
+</div></div>
+<header class="hero" id="top">
   <div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="wrap">
     <div class="eyebrow"><span>Оценка бизнес-инициативы</span><span id="owner"></span><span id="date"></span></div>
@@ -486,7 +515,7 @@ document.getElementById("owner").textContent = M.owner;
 document.getElementById("date").textContent = M.date;
 document.getElementById("lede").textContent = M.description;
 const recEl = document.getElementById("rec");
-recEl.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 8.2l2 2 4-4.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+recEl.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 11V8M8 11V5M11 11V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
 recEl.appendChild(document.createTextNode(M.recommendation.charAt(0).toUpperCase() + M.recommendation.slice(1)));
 const v = document.getElementById("verdict");
 v.classList.add(M.recommendation.startsWith("масштабировать") ? (M.recommendation === "масштабировать" ? "go" : "cond") : M.recommendation === "остановить" ? "stop" : "cond");

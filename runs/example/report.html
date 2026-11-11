@@ -29,6 +29,10 @@
   --blob-2: rgba(4,198,201,.16);
   --blob-3: rgba(214,232,40,.18);
   --shadow: 0 4px 14px -4px rgba(8,8,8,.08), 0 1px 4px -1px rgba(0,0,0,.04);
+  --brand: #21A038;
+  --brand-hover: #1C8F31;
+  --grad: linear-gradient(45deg, #0D8523 0%, #0DA8AB 100%);
+  --surface-2: #F2F2F2;
   --font-display: "Onest", "SB Sans Display", "Golos Text", system-ui, sans-serif;
   --font-body: "Golos Text", "SB Sans Text", system-ui, -apple-system, "Segoe UI", sans-serif;
   --r-card: 20px;
@@ -36,6 +40,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --brand: #1A9E32; --brand-hover: #24B23E; --grad: linear-gradient(45deg, #1A9E32 0%, #04C6C9 100%); --surface-2: #1E1E1E;
     color-scheme: dark;
     --bg: #080808; --card: #141414; --ink: rgba(245,245,245,.96); --ink-2: rgba(245,245,245,.62);
     --ink-3: rgba(245,245,245,.40); --line: #2A2A2A; --grid: #222222; --accent: #24B23E;
@@ -45,6 +50,7 @@
   }
 }
 :root[data-theme="dark"] {
+    --brand: #1A9E32; --brand-hover: #24B23E; --grad: linear-gradient(45deg, #1A9E32 0%, #04C6C9 100%); --surface-2: #1E1E1E;
   color-scheme: dark;
   --bg: #080808; --card: #141414; --ink: rgba(245,245,245,.96); --ink-2: rgba(245,245,245,.62);
   --ink-3: rgba(245,245,245,.40); --line: #2A2A2A; --grid: #222222; --accent: #24B23E;
@@ -67,6 +73,20 @@ p { margin: 0; }
 .muted { color: var(--ink-2); }
 .small { font-size: 14px; line-height: 20px; }
 .tnum { font-variant-numeric: tabular-nums; }
+
+/* верхняя панель */
+.topbar { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--card) 88%, transparent);
+  backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; gap: 28px; height: 60px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font: 600 17px/1 var(--font-body); color: var(--ink); text-decoration: none; letter-spacing: -0.02em; }
+.brand-mark { width: 28px; height: 28px; border-radius: 9px; background: var(--grad); display: grid; place-items: center; }
+.topbar nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.topbar nav a { color: var(--ink-2); text-decoration: none; font-size: 15px; padding: 8px 12px; border-radius: 10px; white-space: nowrap; }
+.topbar nav a:hover { background: var(--surface-2); color: var(--ink); }
+.topbar .cta { margin-left: auto; background: var(--brand); color: #fff; text-decoration: none; font: 600 14px/1 var(--font-body);
+  padding: 11px 18px; border-radius: 12px; white-space: nowrap; }
+.topbar .cta:hover { background: var(--brand-hover); }
+@media (max-width: 760px) { .topbar nav { display: none; } }
 
 /* шапка */
 .hero { position: relative; overflow: hidden; padding: 56px 0 40px; }
@@ -92,6 +112,9 @@ p { margin: 0; }
   background: var(--accent-wash); color: var(--ink); font-weight: 500; font-size: 15px; white-space: nowrap;
 }
 .pill svg { flex: none; }
+.verdict.go .pill { background: var(--brand); color: #fff; }
+.verdict.cond .pill { background: rgba(232,87,2,.12); }
+.verdict.stop .pill { background: rgba(194,64,138,.14); }
 .verdict .summary { display: grid; gap: 12px; max-width: 72ch; font-size: 17px; line-height: 26px; }
 .verdict .rule { font-size: 14px; color: var(--ink-2); }
 @media (max-width: 640px) { .verdict { grid-template-columns: 1fr; } }
@@ -108,11 +131,12 @@ p { margin: 0; }
 .tile .delta b { font-weight: 500; color: var(--ink); }
 
 /* секции */
-section { padding: 40px 0 8px; }
+section { padding: 40px 0 8px; scroll-margin-top: 72px; }
+h2[id] { scroll-margin-top: 80px; }
 .section-head { display: grid; gap: 8px; margin-bottom: 20px; max-width: 72ch; }
 .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
-.card { background: var(--card); border-radius: var(--r-card); padding: 20px 20px 16px; box-shadow: var(--shadow); display: grid; gap: 12px; min-width: 0; }
+.card { background: var(--card); border-radius: var(--r-card); padding: 20px 20px 16px; box-shadow: var(--shadow); display: grid; gap: 12px; min-width: 0; align-content: start; }
 .card header { display: grid; gap: 4px; }
 .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--ink-2); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
@@ -169,7 +193,12 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-
 <body>
 <script type="application/json" id="report-data">{"meta": {"name": "Повышенный кэшбэк в категориях партнёров для держателей дебетовых карт", "owner": "Розничный бизнес, дирекция карточных продуктов", "description": "Клиент подключает опцию и получает +1 п.п. кэшбэка в категориях партнёров. Половину дополнительного кэшбэка компенсируют партнёры. Ожидаемый эффект — рост оборота по карте и остатков на счёте (клиент делает банк основным).", "date": "11.11.2026", "recommendation": "доработать и повторить пилот", "rule": {"recommendation": "доработать и повторить пилот", "reason": "эффект значим, но вероятность NPV>0 ниже 50%; точка безубыточности внутри доверительного интервала — экономику можно спасти доработкой условий"}, "summary": "Пилот подтвердил эффект, но он почти вдвое ниже бизнес-кейса: 12,54 ₽ чистого дохода на клиента в месяц против 22,56 ₽. Подключились 36,1% клиентов вместо 45,0%, а эффект на подключившего — 34,73 ₽ вместо 50,14 ₽. Рост оборота и остатков почти целиком уходит на кэшбэк: +56,63 ₽ interchange и +49,87 ₽ дохода на остатки против 93,96 ₽ чистых расходов на кэшбэк.\n\nПри масштабировании NPV составит 61,9 млн ₽ вместо 860,9 млн ₽ по плану. Точка безубыточности 11,76 ₽ лежит внутри доверительного интервала эффекта, поэтому вероятность NPV > 0 — 41%. Эффект сосредоточен в состоятельном сегменте: 32,83 ₽ против 7,07 ₽ в массовом.", "risks": "- Экономика на грани: точка безубыточности 11,76 ₽, нижняя граница эффекта 3,60 ₽. В худших 5% сценариев NPV в среднем −742,7 млн ₽.\n- Главный рычаг — расходы на кэшбэк: стоит пересогласовать долю компенсации с партнёрами и пересчитать NPV как what-if.\n- Предложение стоит сфокусировать на сегменте с сильным эффектом и повторить пилот с таргетингом и заранее заданным критерием успеха.\n- Эффект новизны может затухать быстрее заложенного: в повторном пилоте нужен горизонт наблюдения длиннее.\n- Выводы детерминированного режима сформированы по шаблону; в режиме агента их пишет модель."}, "kpi": {"itt_plan": 22.56, "itt_fact": 12.537, "itt_ci": [3.5986, 21.4755], "npv_plan": 860.9, "npv_fact": 61.9, "p_plan": 0.869, "p_fact": 0.411, "breakeven": 11.76, "take_up_plan": 0.45, "take_up_fact": 0.361, "att_plan": 50.14, "att_fact": 34.73, "irr_plan": 0.7211, "irr_fact": 0.2444, "payback_plan": 2.13, "payback_fact": 4.37, "pi_plan": 2.91, "pi_fact": 1.14, "naive": 373.26, "discount_rate": 0.2}, "monthly": {"months": [202501, 202502, 202503, 202504, 202505, 202506, 202507, 202508, 202509, 202510, 202511, 202512, 202601, 202602, 202603, 202604, 202605, 202606, 202607, 202608, 202609, 202610, 202611, 202612], "pilot": [822.63, 823.95, 834.01, 854.2, 861.59, 873.98, 867.08, 845.24, 816.62, 800.61, 783.82, 899.21, 793.62, 824.7, 844.08, 877.24, 901.14, 916.44, 911.26, 894.91, 874.41, 847.42, 835.48, 963.98], "control": [779.91, 773.8, 779.07, 791.33, 807.02, 813.89, 807.0, 791.39, 769.17, 748.25, 732.58, 850.03, 737.81, 759.43, 787.23, 816.05, 837.92, 838.54, 840.08, 829.7, 802.55, 784.01, 769.15, 892.26], "start": 202601}, "event": {"points": [{"rel_month": -12, "coef": -6.445, "se": 7.184}, {"rel_month": -11, "coef": 0.98, "se": 7.27}, {"rel_month": -10, "coef": 5.775, "se": 6.451}, {"rel_month": -9, "coef": 13.696, "se": 8.669}, {"rel_month": -8, "coef": 5.394, "se": 10.136}, {"rel_month": -7, "coef": 10.922, "se": 8.459}, {"rel_month": -6, "coef": 10.913, "se": 8.686}, {"rel_month": -5, "coef": 4.678, "se": 8.829}, {"rel_month": -4, "coef": -1.717, "se": 8.461}, {"rel_month": -3, "coef": 3.192, "se": 8.002}, {"rel_month": -2, "coef": 2.069, "se": 7.501}, {"rel_month": 0, "coef": 6.647, "se": 7.527}, {"rel_month": 1, "coef": 16.099, "se": 7.86}, {"rel_month": 2, "coef": 7.68, "se": 8.021}, {"rel_month": 3, "coef": 12.024, "se": 7.197}, {"rel_month": 4, "coef": 14.044, "se": 6.472}, {"rel_month": 5, "coef": 28.732, "se": 8.004}, {"rel_month": 6, "coef": 22.004, "se": 8.906}, {"rel_month": 7, "coef": 16.043, "se": 8.331}, {"rel_month": 8, "coef": 22.685, "se": 7.908}, {"rel_month": 9, "coef": 14.236, "se": 7.606}, {"rel_month": 10, "coef": 17.157, "se": 8.017}, {"rel_month": 11, "coef": 22.55, "se": 9.272}], "slope": -0.058, "slope_p": 0.9079, "placebo": -1.8646, "placebo_p": 0.6568, "ok": true}, "decomp": {"fact": [{"label": "Interchange", "value": 56.6291, "ci": [46.7154, 66.5427]}, {"label": "Доход на остатки", "value": 49.8683, "ci": [43.1077, 56.6289]}, {"label": "Кэшбэк за вычетом партнёров", "value": -93.9603, "ci": [-103.0158, -84.9048]}], "net": 12.537}, "segments": [{"label": "Состоятельный", "value": 32.8341, "lo": 15.7126, "hi": 49.9555, "clients": 4992, "p": 0.0004}, {"label": "Массовый", "value": 7.0719, "lo": 2.7603, "hi": 11.3834, "clients": 14002, "p": 0.002}, {"label": "Премиальный", "value": -2.0622, "lo": -110.0284, "hi": 105.9039, "clients": 1006, "p": 0.9694}], "fcf": {"plan": [-450.0, 87.1, 467.1, 694.8, 612.6, 538.6], "fact": [-450.0, -48.3, 182.9, 329.5, 283.8, 242.6]}, "cashflow_fact": {"margin": [0.0, 225.7, 473.9, 609.3, 548.4, 493.5], "opex": [0.0, 140.0, 140.0, 140.0, 140.0, 140.0], "marketing": [0.0, 180.0, 120.0, 60.0, 60.0, 60.0], "ebitda": [0.0, -94.3, 213.9, 409.3, 348.4, 293.5], "tax": [0.0, -46.1, 31.0, 79.8, 64.6, 50.9], "fcf": [-450.0, -48.3, 182.9, 329.5, 283.8, 242.6]}, "tornado": [{"driver": "Эффект на клиента", "npv_at_-20%_mln": -138.0, "npv_at_+20%_mln": 261.7, "swing_mln": 399.8}, {"driver": "Охват клиентов", "npv_at_-20%_mln": -138.0, "npv_at_+20%_mln": 261.7, "swing_mln": 399.8}, {"driver": "CAPEX", "npv_at_-20%_mln": 138.4, "npv_at_+20%_mln": -14.7, "swing_mln": 153.1}, {"driver": "OPEX", "npv_at_-20%_mln": 124.7, "npv_at_+20%_mln": -0.9, "swing_mln": 125.6}, {"driver": "Ставка дисконтирования", "npv_at_-20%_mln": 127.7, "npv_at_+20%_mln": 5.7, "swing_mln": 122.0}, {"driver": "Затухание эффекта", "npv_at_-20%_mln": 106.4, "npv_at_+20%_mln": 19.0, "swing_mln": 87.4}], "base_npv": 61.9, "mc": {"edges": [-901.7, -855.9, -810.1, -764.3, -718.4, -672.6, -626.8, -581.0, -535.1, -489.3, -443.5, -397.7, -351.8, -306.0, -260.2, -214.4, -168.5, -122.7, -76.9, -31.1, 14.8, 60.6, 106.4, 152.2, 198.1, 243.9, 289.7, 335.5, 381.4, 427.2, 473.0, 518.8, 564.7, 610.5, 656.3, 702.1, 748.0, 793.8, 839.6, 885.4, 931.3], "counts": [12, 14, 25, 40, 55, 63, 66, 91, 98, 175, 173, 195, 232, 226, 215, 264, 269, 268, 256, 252, 238, 198, 210, 192, 153, 156, 157, 114, 122, 86, 66, 54, 50, 44, 27, 28, 25, 20, 13, 8], "n": 5000, "p": 0.411, "p5": -612.0, "p50": -77.9, "p95": 553.3, "es": -742.7}, "design": {"regions_pilot": 20, "regions_control": 20, "clients": 20000, "pre": 12, "post": 12, "dq": "ok"}, "assumptions": {"discount_rate": 0.2, "tax_rate": 0.25, "clients": [1500000, 3500000, 5000000, 5000000, 5000000], "decay": 0.1, "capex_mln": 450.0, "opex_mln": 140.0}}</script>
 
-<header class="hero">
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="#top" id="top-link"><span class="brand-mark" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 12V9M6.5 12V5M10 12V7.5M13.5 12V3.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>fin-eval-agent</a>
+  <nav aria-label="Разделы отчёта"><a href="#s-plan">План и факт</a><a href="#s-pilot">Пилот</a><a href="#s-money">Экономика</a><a href="#s-risks">Риски</a></nav>
+  <a class="cta" href="https://github.com/kae19714-cyber/fin-eval-agent">Код на GitHub</a>
+</div></div>
+<header class="hero" id="top">
   <div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="wrap">
     <div class="eyebrow"><span>Оценка бизнес-инициативы</span><span id="owner"></span><span id="date"></span></div>
@@ -359,7 +388,7 @@ document.getElementById("owner").textContent = M.owner;
 document.getElementById("date").textContent = M.date;
 document.getElementById("lede").textContent = M.description;
 const recEl = document.getElementById("rec");
-recEl.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 8.2l2 2 4-4.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+recEl.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 11V8M8 11V5M11 11V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
 recEl.appendChild(document.createTextNode(M.recommendation.charAt(0).toUpperCase() + M.recommendation.slice(1)));
 const v = document.getElementById("verdict");
 v.classList.add(M.recommendation.startsWith("масштабировать") ? (M.recommendation === "масштабировать" ? "go" : "cond") : M.recommendation === "остановить" ? "stop" : "cond");

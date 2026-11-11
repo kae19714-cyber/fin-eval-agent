@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><link rel="stylesheet" href="_base.css">
+<style>
+body { width: 1280px; height: 760px; }
+.blobs i:nth-child(1){ width:420px;height:300px;left:-80px;top:-120px;background:rgba(26,158,50,.16);}
+.blobs i:nth-child(2){ width:420px;height:300px;left:980px;top:520px;background:rgba(4,198,201,.16);}
+.wrap { position: relative; padding: 56px 64px; display: grid; gap: 28px; }
+h2 { font-size: 40px; line-height: 1.1; }
+.agent { display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; padding: 22px 26px; background: var(--grad); color: #fff; border-radius: 20px; }
+.agent .t { font: 500 20px/1.3 "Golos Text"; }
+.agent .s { font-size: 15px; opacity: .85; margin-top: 4px; }
+.agent .tag { background: rgba(255,255,255,.18); border-radius: 999px; padding: 8px 14px; font-size: 14px; white-space: nowrap; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.st { padding: 18px 18px 16px; display: grid; gap: 6px; align-content: start; position: relative; min-height: 150px; }
+.st .n { font: 500 13px/1 "Golos Text"; color: var(--accent); background: rgba(16,142,38,.10); width: fit-content; padding: 6px 10px; border-radius: 999px; }
+.st .t { font: 500 18px/1.3 "Golos Text"; margin-top: 4px; }
+.st .s { font-size: 14px; line-height: 20px; color: var(--ink-2); }
+.st code { font: 500 12.5px/1 ui-monospace, "SFMono-Regular", Menlo, monospace; color: var(--ink-3); margin-top: auto; padding-top: 6px; }
+.guard { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.g { padding: 16px 18px; display: flex; gap: 12px; align-items: center; font-size: 15px; line-height: 21px; border: 1px solid var(--line); box-shadow: none; background: rgba(255,255,255,.7); }
+.g svg { flex: none; }
+</style></head><body>
+<div class="blobs"><i></i><i></i></div>
+<div class="wrap">
+  <h2>Как агент оценивает инициативу</h2>
+  <div class="agent">
+    <span class="mark" style="background:rgba(255,255,255,.2)"><svg width="24" height="24" viewBox="0 0 16 16"><path d="M3 12V9M6.5 12V5M10 12V7.5M13.5 12V3.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>
+    <div><div class="t">Агент на Claude планирует шаги и пишет выводы</div><div class="s">Все числа считают инструменты: модель вызывает их через tool use и объясняет результат</div></div>
+    <span class="tag">9 инструментов · журнал каждого вызова</span>
+  </div>
+  <div class="steps">
+    <div class="card st"><span class="n">1 · Данные</span><div class="t">Паспорт и витрина</div><div class="s">Допущения бизнес-кейса, SQL-витрина «клиент × месяц», проверки качества данных</div><code>build_data_mart</code></div>
+    <div class="card st"><span class="n">2 · План</span><div class="t">Юнит-экономика плана</div><div class="s">Эффект на клиента из допущений кейса и базовых метрик до пилота</div><code>plan_unit_economics</code></div>
+    <div class="card st"><span class="n">3 · Дизайн</span><div class="t">Проверка предпосылок</div><div class="s">Параллельность трендов, event study, placebo с ложной датой старта</div><code>check_parallel_trends</code></div>
+    <div class="card st"><span class="n">4 · Факт</span><div class="t">Эффект пилота</div><div class="s">Разность разностей, FE клиента и месяца, кластеры по региону, сегменты</div><code>estimate_effect</code></div>
+    <div class="card st"><span class="n">5 · Экономика</span><div class="t">NPV, IRR, окупаемость</div><div class="s">Денежные потоки масштабирования для плана и факта, точка безубыточности</div><code>evaluate_investment</code></div>
+    <div class="card st"><span class="n">6 · Риск</span><div class="t">Чувствительность</div><div class="s">Торнадо ±20% и Monte Carlo с неопределённостью эффекта из пилота</div><code>sensitivity_analysis</code></div>
+    <div class="card st"><span class="n">7 · Решение</span><div class="t">Отчёт комитету</div><div class="s">Рекомендация по формальному правилу, HTML-отчёт с графиками</div><code>build_report</code></div>
+    <div class="card st" style="background:rgba(16,142,38,.06);box-shadow:none;border:1px dashed rgba(16,142,38,.35)"><span class="n">What-if</span><div class="t">Сценарии по запросу</div><div class="s">«А если только состоятельный сегмент?» — агент пересчитывает через overrides</div><code>overrides · unit_effect_override</code></div>
+  </div>
+  <div class="guard">
+    <div class="card g"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z" fill="none" stroke="#108E26" stroke-width="1.8" stroke-linejoin="round"/></svg>Числа в тексте модели сверяются с расчётами — выдуманное число отклоняет отчёт</div>
+    <div class="card g"><svg width="22" height="22" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="#108E26" stroke-width="1.8"/><path d="M8 12h8M8 8.5h8M8 15.5h5" stroke="#108E26" stroke-width="1.8" stroke-linecap="round"/></svg>Входы инструментов валидируются схемами, ошибки возвращаются модели</div>
+    <div class="card g"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M9.5 3.5h5M10.5 3.5v5.2L5.6 17.4A2.2 2.2 0 0 0 7.5 20.5h9a2.2 2.2 0 0 0 1.9-3.1L13.5 8.7V3.5M8 14h8" fill="none" stroke="#108E26" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Методика принята тестами на данных с известным истинным эффектом</div>
+  </div>
+</div>
+</body></html>
